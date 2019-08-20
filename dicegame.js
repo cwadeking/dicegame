@@ -20,8 +20,16 @@ let dieSix = rollDice(1,20)
 console.log(dieSix)
 
 function defaultScore(){
+	if(dieOne + dieTwo + dieThree + dieFour + dieFive + dieSix >= 50){
+		console.log("Gutterball")
+	}
+	
+	// if((dieOne + dieTwo.dieThree.dieFour.dieFive.dieSix) || (dieTwo + dieThree.dieFour.dieFive.dieSix) || (dieThree + dieFour.dieFive.dieSix) || (dieFour + dieFive.dieSix) || (dieFive + dieSix) = 2);{
+	// 	console.log("Split")
+	// }
 	//There needs to be a function to set up default scores for certain rolls. If values equal 1 for two or more of the inputs = 8 split.  If 1 is not input for two dice on second roll, enter any 1 input as second score.  If neither, enter 0.  If total sum equals >=50, default 0.
 }
+defaultScore()
 
 function diceSelect(){
 ///create a function that allows player to select which dice to keep for calc.  Select >= 2 dice.//
