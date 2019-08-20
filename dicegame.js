@@ -4,10 +4,23 @@ document.write("Welcome to Dice Bowling.  Dice Bowling is a lot like regular bow
 
 function rollDice(min,max){
 	return (Math.floor(Math.random(min) * max) + 1);
+}
 console.log(rollDice(1,4))
 console.log(rollDice(1,6))
 console.log(rollDice(1,8))
 console.log(rollDice(1,10))
 console.log(rollDice(1,12))
 console.log(rollDice(1,20))
+
+
+function diceSelect(){
+///create a function that allows player to select which dice to keep for calc//
+}
+
+function calcRoll(){
+//create a function to calculate input (dice selection) and return sums to the scoreboard//
+}
+
+function scoreRolls(){
+//create function to take in calcRoll inputs into two rolls per frame (unless strike).  Strike automatically moves frame over for next roll//
 }
