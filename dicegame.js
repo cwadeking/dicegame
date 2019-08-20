@@ -24,10 +24,10 @@ function defaultScore(){
 		console.log("Gutterball")
 	}
 	
-	// if((dieOne + dieTwo.dieThree.dieFour.dieFive.dieSix) || (dieTwo + dieThree.dieFour.dieFive.dieSix) || (dieThree + dieFour.dieFive.dieSix) || (dieFour + dieFive.dieSix) || (dieFive + dieSix) = 2);{
-	// 	console.log("Split")
-	// }
-	//There needs to be a function to set up default scores for certain rolls. If values equal 1 for two or more of the inputs = 8 split.  If 1 is not input for two dice on second roll, enter any 1 input as second score.  If neither, enter 0.  If total sum equals >=50, default 0.
+	else if(dieOne + dieTwo == 2 || dieOne + dieThree == 2 || dieOne + dieFour == 2 || dieOne + dieFive == 2 || dieOne + dieSix == 2 || dieTwo + dieThree == 2 || dieTwo + dieFour == 2 || dieTwo + dieFive == 2 || dieTwo + dieSix == 2 || dieThree + dieFour == 2 || dieThree + dieFive == 2 || dieThree + dieSix == 2 || dieFour + dieFive == 2 || dieFour + dieSix == 2 || dieFive + dieSix == 2){
+		console.log("Split")
+	}
+	// There needs to be a function to set up default scores for certain rolls. If values equal 1 for two or more of the inputs = 8 split.  If 1 is not input for two dice on second roll, enter any 1 input as second score.  If neither, enter 0.  If total sum equals >=50, default 0.
 }
 defaultScore()
 
