@@ -39,28 +39,29 @@ defaultScore()
 
 function diceSelect(){
 	let selectedRolls = [dieOne, dieTwo, dieThree, dieFour, dieFive, dieSix];
-	let userInput = prompt("Which two dice do you choose? (one at a time)")
-	if(userInput = 1){
-		console.log(selectedRolls.push(0));
+	let userInput = prompt("Which two dice do you choose? (one at a time)");
+	if(userInput == 1){
+	console.log(selectedRolls[0]);
 	}
-	else if(userInput = 2){
-		selectedRolls.push(1);
+	else if(userInput == 2){
+	console.log(selectedRolls[1]);
 	}
-	else if(userInput = 3){
-		selectedRolls.push(2);
+	else if(userInput == 3){
+	console.log(selectedRolls[2]);
 	}
-	else if(userInput = 4){
-		selectedRolls.push(3);
+	else if(userInput == 4){
+	console.log(selectedRolls[3]);
 	}
-	else if(userInput = 5){
-		selectedRolls.push(4);
+	else if(userInput == 5){
+	console.log(selectedRolls[4]);
 	}
-	else if(userInput = 6){
-		selectedRolls.push(5);
+	else if(userInput == 6){
+	console.log(selectedRolls[5]);
 	}
 	else{
-		console.log(prompt("That is not an accurate selection."))
+	console.log(prompt("That is not an accurate selection."))
 	}
+
 
 	// ask them which dice they want to save
 
