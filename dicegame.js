@@ -30,14 +30,15 @@ function defaultScore(){
 		//When setting up the second roll, should be able to cut and paste this//
 	}
 	else{
-		knockedPins = diceSelect()
+		knockedPins = (diceSelect1() + diceSelect2() + diceSelect3())
 		// There needs to be a function to set up default scores for certain rolls. If values equal 1 for two or more of the inputs = 8 split.  If 1 is not input for two dice on second roll, enter any 1 input as second score.  If neither, enter 0.  If total sum equals >=50, default 0.
 	}
+	while(diceSelect1() + diceSelect2() + diceSelect3() <= 10);
 	return knockedPins;
 }
 defaultScore()
 
-function diceSelect(){
+function diceSelect1(){
 	let selectedRolls = [dieOne, dieTwo, dieThree, dieFour, dieFive, dieSix];
 	let userInput = prompt("Which two dice do you choose? (one at a time)");
 	if(userInput == 1){
@@ -61,24 +62,66 @@ function diceSelect(){
 	else{
 	console.log(prompt("That is not an accurate selection."))
 	}
-
-
-	// ask them which dice they want to save
-
-	// if they chose "1",
-		// selectedRolls.push(dieOne);
-
-	// selectedRolls.push(0);
-
-
-///create a function that allows player to select which dice to keep for calc.  Select >= 2 dice.//
-	//for()
 }
 
-function calcRoll(selectedRolls){
-//create a function to calculate input (dice selection) and return sums to the scoreboard//
+function diceSelect2(){
+	let selectedRolls = [dieOne, dieTwo, dieThree, dieFour, dieFive, dieSix];
+	let userInput = prompt("Which two dice do you choose? (one at a time)");
+	if(userInput == 1){
+	console.log(selectedRolls[0]);
+	}
+	else if(userInput == 2){
+	console.log(selectedRolls[1]);
+	}
+	else if(userInput == 3){
+	console.log(selectedRolls[2]);
+	}
+	else if(userInput == 4){
+	console.log(selectedRolls[3]);
+	}
+	else if(userInput == 5){
+	console.log(selectedRolls[4]);
+	}
+	else if(userInput == 6){
+	console.log(selectedRolls[5]);
+	}
+	else{
+	console.log(prompt("That is not an accurate selection."))
+	}
 }
 
-function scoreRolls(){
-//create function to take in calcRoll inputs into two rolls per frame (unless strike).  Strike automatically moves frame over for next roll//
+function diceSelect3(){
+	let selectedRolls = [dieOne, dieTwo, dieThree, dieFour, dieFive, dieSix];
+	let userInput = prompt("Which two dice do you choose? (one at a time)");
+	if(userInput == 1){
+	console.log(selectedRolls[0]);
+	}
+	else if(userInput == 2){
+	console.log(selectedRolls[1]);
+	}
+	else if(userInput == 3){
+	console.log(selectedRolls[2]);
+	}
+	else if(userInput == 4){
+	console.log(selectedRolls[3]);
+	}
+	else if(userInput == 5){
+	console.log(selectedRolls[4]);
+	}
+	else if(userInput == 6){
+	console.log(selectedRolls[5]);
+	}
+	else{
+	console.log(prompt("That is not an accurate selection."))
+	}
 }
+
+///create a function that allows player to select which dice to keep for calc.  Select >= 2 dice.///
+
+// function calcRoll(selectedRolls){
+// //create a function to calculate input (dice selection) and return sums to the scoreboard//
+// }
+
+// function scoreRolls(){
+// //create function to take in calcRoll inputs into two rolls per frame (unless strike).  Strike automatically moves frame over for next roll//
+// }
