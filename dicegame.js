@@ -25,20 +25,27 @@ let dieSix = rollDice(1,20)
 console.log("Die 6 is=   " + dieSix)
 
 
-function defaultScore(){
+function rollOneScore(){
 	let knockedPins = 0;
 		if(dieOne + dieTwo + dieThree + dieFour + dieFive + dieSix >= 50){
 			console.log("Gutterball")
 			knockedPins = 0;
-			rollDice()
-			console.log()
-		//figure out how to enter in a zero for first roll in that frame//
 		}
 		else if(dieOne + dieTwo == 2 || dieOne + dieThree == 2 || dieOne + dieFour == 2 || dieOne + dieFive == 2 || dieOne + dieSix == 2 || dieTwo + dieThree == 2 || dieTwo + dieFour == 2 || dieTwo + dieFive == 2 || dieTwo + dieSix == 2 || dieThree + dieFour == 2 || dieThree + dieFive == 2 || dieThree + dieSix == 2 || dieFour + dieFive == 2 || dieFour + dieSix == 2 || dieFive + dieSix == 2){
 			console.log("Split")
 			knockedPins = 8;
-			rollDice()
-			console.log()
+		}
+		else{
+			knockedPins = diceSelect() + diceSelect()
+		}
+		return knockedPins;
+}
+
+function rollTwoScore(){
+	let knockedPins = 0;
+		if(dieOne + dieTwo + dieThree + dieFour + dieFive + dieSix >= 50){
+			console.log("Gutterball")
+			knockedPins = 0;
 		}
 		else{
 			knockedPins = diceSelect() + diceSelect()
@@ -73,21 +80,21 @@ function diceSelect(){
 		}
 }
 
-function calcRoll(){
-	let rollOneScore = 0;
-	let strikeFrame = 0;
-		if (diceSelect() + diceSelect() <= 9){
-		return rollOneScore;
-		console.log();
-		}
-		else if (diceSelect() + diceSelect() = 10){
-		return strikeFrame;
-		console.log();
-		}
-		else {
-		prompt("You're trying to cheat!");
-		}
-}
+// function calcRoll(){
+// 	let rollOneScore = 0;
+// 	let strikeFrame = 0;
+// 		if (diceSelect() + diceSelect() <= 9){
+// 		return rollOneScore;
+// 		console.log();
+// 		}
+// 		else if (diceSelect() + diceSelect() == 10){
+// 		return strikeFrame;
+// 		console.log();
+// 		}
+// 		else {
+// 		prompt("You're trying to cheat!");
+// 		}
+// }
 
 // function scoreRolls(){
 // //create function to take in calcRoll inputs into two rolls per frame (unless strike).  Strike automatically moves frame over for next roll//
