@@ -1,10 +1,54 @@
-    alert("Welcome to Dice Bowling!");
-    console.log(prompt("What is your name?"));
-    document.write("Welcome to Dice Bowling.  Dice Bowling is a lot like regular bowling, except ZERO physical skill is required. \n Just click a few things and let us do the work for you.  After rolling 6 different dice (4, 6, 8, 10, 12, and 20-sided), \n on your first roll, you will need to select 2 dice that are equal to 10.  If you can do that, you've just \n rolled a strike.  If you don't have 2 dice that are equal to by 10, then select two dice that you want that\n are less than 10 for your initial roll.  The sum of those dice will be entered and you'll be ready for your \n second roll. On your second roll, you will have to chose one more die to complete the frame for a spare, or \n leave the frame open and your score entered!");
+alert("Welcome to Dice Bowling!");
+console.log(prompt("What is your name?"));
+document.write(`Welcome to Dice Bowling.  Dice Bowling is a lot like regular bowling, except ZERO physical skill is required.
+                 \n Just click a few things and let us do the work for you.  After rolling 6 different dice (4, 6, 8, 10, 12, and 20-sided),
+                  \n on your first roll, we'll check if there are two dice that equal 10.  If so, you've just 
+                  \n rolled a strike.  If you don't have 2 dice that equal 10, then select two dice that you want that
+                  \n are less than 10 for your initial roll.  The sum of those dice will be entered and you'll be ready for your 
+                  \n second roll. On your second roll, you will have to choose one more die to complete the frame for a spare, or 
+                  \n leave the frame open and your score entered!`);
 
-    var frameScoreArray = new Array();
 
-    runGame();
+
+runGame();
+
+    function createStandardFrameObject(shotOne,shotTwo){
+        var frame = {
+            valueOfShotOne: {shotOne},
+            valueOfShotTwo: {shotTwo}
+        }
+        return frame;
+    }
+
+    function createShotObject(shotType, shotValue){
+        let shot = {
+            ShotType: shotType,
+            ShotValue: shotValue
+        }
+        return shot;
+    }
+
+    function createTenthFrameObject(shotOne,shotTwo,shotThree){
+        var frame = {
+            ShotOne: {shotOne},
+            ShotTwo: {shotTwo},
+            ShotThree: {shotThree}
+        }
+        return frame;
+    }
+    function rollOne(){
+        let firstShot;
+        let diceArray = rollDice();
+        displayDiceValues(diceArray);
+        firstShot = checkValuesRollOne(diceArray);
+        return firstShot;
+    }
+
+    function rollTwo(firstShot){
+        rollDice();
+        checkValuesRollTwo();
+        return tempPinValue;
+    }
 
     function runGame(){
         frameStandard();
@@ -20,24 +64,17 @@
         
     }
 
-    function frameStandard(){
-        var frameScore;
-        var tempFrameScore;
-        let tempPinValue = rollOne();
-        if(tempPinValue == 10){
-            strikeFrame();
-            frameTwo();
+    function checkValuesRollOne(diceArray){
+        if(splitFrameOrPickupYesOrNo(diceArray)){
+            return createShotObject("split", 8);
+        }else if(gutterBallCheck(diceArray)){
+            return createShotObject("gutter ball", 0);
+        }else if(strikeCheck(diceArray)){
+            return createShotObject("strike", 10);
         }else{
-            tempFrameScore = tempPinValue;
+            return diceSelect(diceArray);
         }
 
-        tempPinValue = rollTwo();
-
-        if(tempPinValue + tempFrameScore == 10){
-            spareFrame();
-        }
-
-        
     }
 
     function rollSingleDie(sides){
@@ -86,94 +123,87 @@
             console.log(`Dice number: ${diceArray[i].diceNumber}'s value is ${diceArray[i].value}`);
         }
     }
-    function rollOne(){
-        rollDice();
-        tempPinValue = checkValuesRollOne();
-        return tempPinValue;
-    }
-
-    function rollTwo(tempPinValue){
-        rollDice();
-        checkValuesRollTwo();
-        return tempPinValue;
-    }
 
 
-    function strikeFrame(){
+   
 
-    }
-
-    function spareFrame(){
-
-    }
-
-    function splitFrame(tempPinValue){
-        rollTwo();
-        return tempPinValue;
-
-    }
-
-
-    function checkValuesRollOne(tempPinValue){
-         //let tempPinValue;
-         let firstSelection = 0;
-         let secondSelection = 0;
-         if(dieOne + dieTwo + dieThree + dieFour + dieFive + dieSix >= 50){
-			console.log("Gutterball");
-			tempPinValue == 0;
-		}else if(dieOne + dieTwo == 2 || dieOne + dieThree == 2 || dieOne + dieFour == 2 || dieOne + dieFive == 2 || dieOne + dieSix == 2 || dieTwo + dieThree == 2 || dieTwo + dieFour == 2 || dieTwo + dieFive == 2 || dieTwo + dieSix == 2 || dieThree + dieFour == 2 || dieThree + dieFive == 2 || dieThree + dieSix == 2 || dieFour + dieFive == 2 || dieFour + dieSix == 2 || dieFive + dieSix == 2){
-			console.log("Split");
-            splitFrame();
+    function splitFrameOrPickupYesOrNo(diceArray){
+        let splitYesOrNo = diceArray.filter(el => {
+            if(el.value === 1){
+                return true;
             }
-		    else{
-                firstSelection = diceSelect();
-                secondSelection = diceSelect();
-                tempPinValue = firstSelection + secondSelection;
-		    }
-		    return tempPinValue;
+        });
+        if(splitYesOrNo.length > 1){
+            return true;
+        }
+        return false;
     }
 
-    function checkValuesRollTwo(tempPinValue){
-        var tempPinValue;
-         
-            if((dieOne + dieTwo != 2 || dieOne + dieThree != 2 || dieOne + dieFour != 2 || dieOne + dieFive != 2 || dieOne + dieSix != 2 || dieTwo + dieThree != 2 || dieTwo + dieFour != 2 || dieTwo + dieFive != 2 || dieTwo + dieSix != 2 || dieThree + dieFour != 2 || dieThree + dieFive != 2 || dieThree + dieSix != 2 || dieFour + dieFive != 2 || dieFour + dieSix != 2 || dieFive + dieSix != 2)){
-                console.log("Open frame!")
-                tempPinValue == 8;    
-                }
-            else if(dieOne + dieTwo + dieThree + dieFour + dieFive + dieSix >= 50){
-                console.log("Gutterball")
-                tempPinValue += 0;
-            }
-            else{
-                tempPinValue == diceSelect();
-            }
-            return tempPinValue;
+    function gutterBallCheck(diceArray){
+        let rollAmount;
+        for(let i = 0; i < diceArray.length; i++){
+            rollAmount += diceArray[i].value;
+        }
+
+        if(rollAmount > 50){
+            return true;
+        }
+
+        return false;
+    }
+    
+    function strikeCheck(diceArray){
+        
     }
 
-    function diceSelect(){
-        var tempPinValue = 0;
-        let selectedRolls = [dieOne, dieTwo, dieThree, dieFour, dieFive, dieSix];
-        let userInput = prompt("Which dice do you choose? (one at a time)");
-            if(userInput == 1){
-                tempPinValue = selectedRolls[0];
-                return tempPinValue;
-            }else if(userInput == 2){
-                tempPinValue = selectedRolls[1];
-                return tempPinValue;
-            }else if(userInput == 3){
-                tempPinValue = selectedRolls[2];
-                return tempPinValue;
-            }else if(userInput == 4){
-                tempPinValue = selectedRolls[3];
-                return tempPinValue;
-            }else if(userInput == 5){
-                tempPinValue = selectedRolls[4];
-                return tempPinValue;
-            }else if(userInput == 6){
-                tempPinValue = selectedRolls[5];
-                return tempPinValue;
-            }else{
-                console.log(prompt("That is not an accurate selection."))
+    function diceSelect(rolledDice){
+        let tempPinValue;
+        let counter = 0;
+        while(tempPinValue > 10 || counter < 2){
+            if(tempPinValue > 10){
+                tempPinValue = 0;
             }
+            let userInput = prompt("Which dice do you choose? (one at a time)");
+            let firstChoice;
+            if(userInput === firstChoice){
+                continue;
+            }
+            switch(userInput){
+                case "1":
+                        tempPinValue += rolledDice[0].value;
+                        counter++;
+                        firstChoice = "1";
+                        break;
+                case "2":
+                        tempPinValue += rolledDice[1].value;
+                        counter++;
+                        firstChoice = "2";
+                        break;
+                case "3":
+                        tempPinValue += rolledDice[2].value;
+                        counter++;
+                        firstChoice += "3";
+                        break;
+                case "4":
+                        tempPinValue += rolledDice[3].value;
+                        counter++;
+                        firstChoice = "4";
+                        break;
+                case "5":
+                        tempPinValue += rolledDice[4].value;
+                        counter++;
+                        firstChoice = "5";
+                        break;
+                case "6":
+                        tempPinValue += rolledDice[5].value;
+                        counter++;
+                        firstChoice = "6";
+                        break;
+                default:
+                        console.log(prompt("That is not an accurate selection."))
+            }
+            return createShotObject("basic", tempPinValue);
+
+        }
     }    
     
