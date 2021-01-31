@@ -12,14 +12,29 @@ document.write(`Welcome to Dice Bowling.  Dice Bowling is a lot like regular bow
 
 runGame();
 
-    function createStandardFrameObject(shotOne,shotTwo){
+    function runGame(){
+        let gameArray = [
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne())),
+            createStandardFrameObject(rollTwo(rollOne()))
+        ]
+        console.log(gameArray);
+    }
+
+    function createStandardFrameObject(bothShots){
         var frame = {
-            valueOfShotOne: {shotOne},
-            valueOfShotTwo: {shotTwo}
+            ShotOne: bothShots[0],
+            ShotTwo: bothShots[1]
         }
         return frame;
     }
-
+    
     function createShotObject(shotType, shotValue){
         let shot = {
             ShotType: shotType,
@@ -36,32 +51,38 @@ runGame();
         }
         return frame;
     }
+
     function rollOne(){
         let firstShot;
         let diceArray = rollDice();
         displayDiceValues(diceArray);
         firstShot = checkValuesRollOne(diceArray);
+        console.clear();
         return firstShot;
     }
-
+    
     function rollTwo(firstShot){
-        rollDice();
-        checkValuesRollTwo();
-        return tempPinValue;
+        let diceArray = rollDice();
+        displayDiceValues(diceArray);
+        secondShot = checkValuesRollTwo(diceArray, firstShot);
+        console.clear();
+        return [{firstShot}, {secondShot}];
     }
 
-    function runGame(){
-        frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // frameStandard();
-        // tenthFrame();
-        
+    
+
+    function checkValuesRollTwo(diceArray,firstShot){
+        if(firstShot.ShotType === "split"){
+            if(splitFrameOrPickupYesOrNo(diceArray)){
+                return createShotObject("spare", 2);
+            }else{
+                return createShotObject("open", 1);
+            }
+        }else if(firstShot.ShotType === "strike"){
+            return createShotObject("empty", 0);
+        }else{
+            return diceSelect(diceArray, firstShot.ShotValue);
+        }
     }
 
     function checkValuesRollOne(diceArray){
@@ -92,27 +113,27 @@ runGame();
         let dieSix = rollSingleDie(20);
         let diceCollection = [
             {
-                diceNumber: "One",
+                diceNumber: "1",
                 value: dieOne
             },
             {
-                diceNumber: "Two", 
+                diceNumber: "2", 
                 value: dieTwo
             },
             {
-                diceNumber: "Three",
+                diceNumber: "3",
                 value: dieThree
             },
             {
-                diceNumber: "Four",
+                diceNumber: "4",
                 value: dieFour
             },
             {
-                diceNumber: "Five",
+                diceNumber: "5",
                 value: dieFive
             },
             {
-                diceNumber: "Six",
+                diceNumber: "6",
                 value: dieSix
             }];
         return diceCollection;                     
@@ -140,7 +161,7 @@ runGame();
     }
 
     function gutterBallCheck(diceArray){
-        let rollAmount;
+        let rollAmount = 0;
         for(let i = 0; i < diceArray.length; i++){
             rollAmount += diceArray[i].value;
         }
@@ -152,19 +173,50 @@ runGame();
         return false;
     }
     
-    function strikeCheck(diceArray){
-        
+
+    function checkArrayCombosForATenValue(arrayCombos){
+        let combosEqualingTen = arrayCombos.filter(el => {
+            if(el[0] + el[1] === 10){
+                return true;
+            }
+            else{
+                return false;
+            }
+        })
+
+        if(combosEqualingTen.length > 0){
+            return true;
+        }
+        return false;
     }
 
-    function diceSelect(rolledDice){
-        let tempPinValue;
+    function strikeCheck(diceArray){
+        let arrayCombos = [];
+        for(let i = 0; i < diceArray.length; i++){
+            
+            for(let j = diceArray.length - 1; j > i; j--){
+                    arrayCombos.push([diceArray[i].value,diceArray[j].value]);
+            }
+        }
+
+        return checkArrayCombosForATenValue(arrayCombos);
+    }
+
+    function diceSelect(rolledDice, valueOfFirstRoll){
+        let tempPinValue = 0;
+        if(valueOfFirstRoll){
+            tempPinValue = valueOfFirstRoll;
+        }
         let counter = 0;
+        if(tempPinValue){
+            counter = 1;
+        }
+        let firstChoice;
         while(tempPinValue > 10 || counter < 2){
             if(tempPinValue > 10){
                 tempPinValue = 0;
             }
             let userInput = prompt("Which dice do you choose? (one at a time)");
-            let firstChoice;
             if(userInput === firstChoice){
                 continue;
             }
@@ -202,8 +254,7 @@ runGame();
                 default:
                         console.log(prompt("That is not an accurate selection."))
             }
-            return createShotObject("basic", tempPinValue);
-
         }
+        return createShotObject("basic", tempPinValue);
     }    
     
