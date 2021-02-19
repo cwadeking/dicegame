@@ -16,24 +16,26 @@
     //alert("Welcome to Dice Bowling!");
     //console.log(prompt("What is your name?"));
     //displayGameRules();
+    
         let gameArray = [
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne())),
-            createStandardFrameObject(rollTwo(rollOne()))
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+            createTenthFrameObject(playTheTenthFrame())
         ]
         console.log(gameArray);
     }
 
-    function createStandardFrameObject(bothShots){
+    function createStandardFrameObject(shotOne,shotTwo){
         var frame = {
-            ShotOne: bothShots[0],
-            ShotTwo: bothShots[1]
+            ShotOne: shotOne,
+            ShotTwo: shotTwo
         }
         return frame;
     }
@@ -46,11 +48,11 @@
         return shot;
     }
 
-    function createTenthFrameObject(shotOne,shotTwo,shotThree){
+    function createTenthFrameObject(threeShots){
         var frame = {
-            ShotOne: {shotOne},
-            ShotTwo: {shotTwo},
-            ShotThree: {shotThree}
+            ShotOne: threeShots[0],
+            ShotTwo: threeShots[1],
+            ShotThree: threeShots[2]
         }
         return frame;
     }
@@ -69,7 +71,7 @@
         displayDiceValues(diceArray);
         secondShot = checkValuesRollTwo(diceArray, firstShot);
         console.clear();
-        return [{firstShot}, {secondShot}];
+        return secondShot;
     }
 
     
@@ -329,4 +331,35 @@
         }
         return createShotObject("open", tempPinValue);
 
+    }
+
+    function playTheTenthFrame(){
+        //if you roll a spare in the first two shots, you get a third shot.  If you roll a strike in the first roll, you get two more shots.
+        let firstShot = rollOne();
+        let secondShot;
+        let thirdShot;
+        switch(firstShot.ShotType){
+            case "strike":
+                secondShot = rollOne();
+                break;
+            case "basic":
+            case "split":
+            case "gutterball":
+                secondShot = rollTwo(firstShot);
+                break;
+        }
+        switch(secondShot.ShotType){
+            case "strike":
+                thirdShot = rollOne();
+                break;
+            case "basic":
+            case "split":
+            case "gutterball":
+                thirdShot = rollTwo(firstShot);
+                break;
+            case "open":
+                thirdShot = createShotObject("open", 0);
+        }
+
+        return [firstShot, secondShot, thirdShot];//needs to return 3 shot objects
     }
