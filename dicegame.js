@@ -35,9 +35,9 @@
         //     createTenthFrameObject(playTheTenthFrame())
         // ]
         let gameArray = [
+            createStandardFrameObject(shotStrike, shotEmpty),
             createStandardFrameObject(shotBasic, shotOpen),
             createStandardFrameObject(shotBasic, shotSpare),
-            createStandardFrameObject(shotStrike, shotEmpty),
             createStandardFrameObject(shotBasic, shotSpare),
             createStandardFrameObject(shotBasic, shotOpen),
             createStandardFrameObject(shotStrike, shotEmpty),
@@ -54,16 +54,53 @@
     }
 
     function calculateScore(gameArray){
+        let runningTallyArray = [0,0,0,0,0,0,0,0,0,0];
+        let tempFrameTotal = 0;
         for(let i = 0; i < gameArray.length; i++){
-            if(gameArray[i].ShotOne.ShotType === "strike"){
-                console.log("found a shot strike");
+            if(i === gameArray.length - 1){//last index/frame
+                tempFrameTotal = runningTally(runningTallyArray, i);
+                runningTallyArray[i] = gameArray[i].ShotOne.ShotValue + gameArray[i].ShotTwo.ShotValue + gameArray[i].ShotThree.ShotValue;
+                gameArray[i].RunningScore = tempFrameTotal + runningTallyArray[i];//next iteration, change each condition to a function.  have calls in a switch case
+            }
+            
+            else if(gameArray[i].ShotOne.ShotType === "strike"){
+                tempFrameTotal = runningTally(runningTallyArray, i);
+                if(gameArray[i + 1].ShotTwo.ShotType === "empty"){
+                    runningTallyArray[i] = gameArray[i].ShotOne.ShotValue + gameArray[i + 1].ShotOne.ShotValue + gameArray[i + 2].ShotOne.ShotValue;
+                    gameArray[i].RunningScore = tempFrameTotal + runningTallyArray[i];
+                }
+                else{
+                    runningTallyArray[i] = gameArray[i].ShotOne.ShotValue + gameArray[i + 1].ShotOne.ShotValue + gameArray[i + 1].ShotTwo.ShotValue;
+                    gameArray[i].RunningScore = tempFrameTotal + runningTallyArray[i];
+                }
+            }
+            else if(gameArray[i].ShotTwo.ShotType === "spare"){
+                tempFrameTotal = runningTally(runningTallyArray, i);
+                runningTallyArray[i] = gameArray[i].ShotOne.ShotValue + gameArray[i].ShotTwo.ShotValue + gameArray[i + 1].ShotOne.ShotValue;
+                gameArray[i].RunningScore = tempFrameTotal + runningTallyArray[i];
+            }
+            else{
+                tempFrameTotal = runningTally(runningTallyArray, i);
+                runningTallyArray[i] = gameArray[i].ShotOne.ShotValue + gameArray[i].ShotTwo.ShotValue;
+                gameArray[i].RunningScore = tempFrameTotal + runningTallyArray[i];
             }
         }
+    
     }
+
+    function runningTally(gameArrayValues, index){
+        let runningTally = 0;
+        for(let i = 0; i <= index; i++){
+            runningTally += gameArrayValues[i];
+        }
+        return runningTally;
+    }
+
     function createStandardFrameObject(shotOne,shotTwo){
         var frame = {
             ShotOne: shotOne,
-            ShotTwo: shotTwo
+            ShotTwo: shotTwo, 
+            RunningScore: 0
         }
         return frame;
     }
@@ -80,7 +117,8 @@
         var frame = {
             ShotOne: threeShots[0],
             ShotTwo: threeShots[1],
-            ShotThree: threeShots[2]
+            ShotThree: threeShots[2],
+            FinalScore: 0
         }
         return frame;
     }
