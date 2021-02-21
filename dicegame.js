@@ -16,22 +16,50 @@
     //alert("Welcome to Dice Bowling!");
     //console.log(prompt("What is your name?"));
     //displayGameRules();
-    
+    let shotBasic = createShotObject("basic", 7);
+    let shotSpare = createShotObject("spare", 3);
+    let shotOpen = createShotObject("open", 2);
+    let shotStrike = createShotObject("strike", 10);
+    let shotEmpty = createShotObject("empty", 0);
+    let tenthFrame = [shotStrike, shotStrike, shotStrike];
+        // let gameArray = [
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
+        //     createTenthFrameObject(playTheTenthFrame())
+        // ]
         let gameArray = [
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createStandardFrameObject(shotOne = rollOne(),rollTwo(shotOne)),
-            createTenthFrameObject(playTheTenthFrame())
+            createStandardFrameObject(shotBasic, shotOpen),
+            createStandardFrameObject(shotBasic, shotSpare),
+            createStandardFrameObject(shotStrike, shotEmpty),
+            createStandardFrameObject(shotBasic, shotSpare),
+            createStandardFrameObject(shotBasic, shotOpen),
+            createStandardFrameObject(shotStrike, shotEmpty),
+            createStandardFrameObject(shotBasic, shotOpen),
+            createStandardFrameObject(shotBasic, shotSpare),
+            createStandardFrameObject(shotStrike, shotEmpty),
+            createTenthFrameObject(tenthFrame)
         ]
+
+
+        let gameScore = calculateScore(gameArray);
         console.log(gameArray);
+        
     }
 
+    function calculateScore(gameArray){
+        for(let i = 0; i < gameArray.length; i++){
+            if(gameArray[i].ShotOne.ShotType === "strike"){
+                console.log("found a shot strike");
+            }
+        }
+    }
     function createStandardFrameObject(shotOne,shotTwo){
         var frame = {
             ShotOne: shotOne,
